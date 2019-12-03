@@ -14,6 +14,7 @@ except ModuleNotFoundError:
     raise
 
 # Build Fortran module using NumPy (f2Py)
+# https://stackoverflow.com/questions/55352409/python-setuptools-compile-fortran-code-and-make-an-entry-points
 src_folder = 'trustregion'
 sources = []
 for f in os.listdir(src_folder):
