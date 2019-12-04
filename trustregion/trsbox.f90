@@ -138,10 +138,9 @@ Subroutine trsbox(N,XOPT,GOPT,HQ,SL,SU,DELTA,D,GNEW,CRVMIN)
       END IF
 !     Replace termination condition with the one from DFBOLS [H. Zhang, 2010]
 !      IF (GREDSQ*DELSQ .LE. 1.0D-4*QRED*QRED) GO TO 190
-      IF (ITERC==0) THEN
-          GREDSQ0=GREDSQ
-      END IF
-      IF ((GREDSQ <= MIN(1.0D-6*GREDSQ0, 1.0D-18)) .OR. (GREDSQ*DELSQ .LE. MIN(1.0D-6*QRED*QRED,1.0D-18))) GO TO 190
+      IF (ITERC==0) GREDSQ0=GREDSQ
+      IF (GREDSQ <= MIN(1.0D-6*GREDSQ0, 1.0D-18)) GO TO 190
+      IF (GREDSQ*DELSQ .LE. MIN(1.0D-6*QRED*QRED,1.0D-18)) GO TO 190
 !
 !     Multiply the search direction by the second derivative matrix of Q and
 !     calculate some scalars for the choice of steplength. Then set BLEN to
@@ -170,6 +169,8 @@ Subroutine trsbox(N,XOPT,GOPT,HQ,SL,SU,DELTA,D,GNEW,CRVMIN)
       IF (SHS .GT. ZERO) THEN
           STPLEN=DMIN1(BLEN,GREDSQ/SHS)
       END IF
+!     Extra termination condition from DFBOLS [H. Zhang, 2010]
+      IF (STPLEN .LE. 1.0D-30) GO TO 190
       
 !
 !     Reduce STPLEN if necessary in order to preserve the simple bounds,
