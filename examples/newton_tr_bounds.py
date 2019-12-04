@@ -35,7 +35,7 @@ def minimize(f, gradf, hessf, x0, xl, xu, delta0=1.0, deltamin=1e-6, gtol=1e-6, 
     deltak = delta0
     if verbose:
         print("{0:^10}{1:^10}{2:^15}{3:^15}".format("k", "f(xk)", "||gradf(xk)||", "xk"))
-        np.set_printoptions(precision=4, suppress=True)
+        np.set_printoptions(precision=4, suppress=False)
     k = -1
     while k < maxiter:
         k += 1
@@ -48,7 +48,7 @@ def minimize(f, gradf, hessf, x0, xl, xu, delta0=1.0, deltamin=1e-6, gtol=1e-6, 
         # Note: if unbounded, this reduces to np.linalg.norm(gk)
         crit_measure = abs(np.dot(gk, trustregion.solve(gk, None, 1.0, sl=xl - xk, su=xu - xk)))
         if verbose:
-            print("{0:^10}{1:^10.4f}{2:^15.2e}{3:^15}".format(k, fk, crit_measure, str(xk)))
+            print("{0:^10}{1:^10.4e}{2:^15.4e}{3:^15}".format(k, fk, crit_measure, str(xk)))
         # Check termination
         if crit_measure <= gtol or deltak <= deltamin:
             break  # quit loop
@@ -80,6 +80,6 @@ if __name__ == '__main__':
     x0 = np.array([-1.2, 1.0])  # (note: infeasible x0)
     xl = np.array([0.0, 0.0])
     xu = np.array([0.8, 0.6])
-    xmin, niters = minimize(f, gradf, hessf, x0, xl, xu, maxiter=200, verbose=True)
+    xmin, niters = minimize(f, gradf, hessf, x0, xl, xu, verbose=True)
     print("Found solution xmin = %s after %g iterations" % (str(xmin), niters))
     print("Done")

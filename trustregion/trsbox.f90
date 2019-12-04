@@ -404,8 +404,9 @@ Subroutine trsbox(N,XOPT,GOPT,HQ,SL,SU,DELTA,D,GNEW,CRVMIN)
 !     They are reached from three different parts of the software above and
 !     they can be regarded as an external subroutine.
 !
-  210 DO 220 J=1,N
-          HS(J)=ZERO
+  210 DO 215 J=1,N
+  215     HS(J)=ZERO
+      DO 220 J=1,N
           DO 220 I=1,N
   220         HS(I)=HS(I)+HQ(I,J)*S(J)
       IF (CRVMIN .NE. ZERO) GOTO 50
