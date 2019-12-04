@@ -10,7 +10,7 @@ trustregion: Trust-region subproblem solver
    :target: https://www.gnu.org/licenses/gpl-3.0
    :alt: GNU GPL v3 License
 
-This package provides methods for solving the trust-region subproblem from nonlinear, nonconvex optimization. For more details on trust-region methods, see the book: A. R. Conn, N. I. M. Gould and Ph. L. Toint (2000), Trust-Region Methods, MPS-SIAM Series on Optimization.
+This package provides Python routines for solving the trust-region subproblem from nonlinear, nonconvex optimization. For more details on trust-region methods, see the book: A. R. Conn, N. I. M. Gould and Ph. L. Toint (2000), Trust-Region Methods, MPS-SIAM Series on Optimization.
 
 The trust-region subproblem we solve is
 
@@ -20,7 +20,7 @@ The trust-region subproblem we solve is
 
 **Interface** 
 
-The package :code:`trustregion` provides one routine, :code:`solve`, with interface:
+The Python package :code:`trustregion` provides one routine, :code:`solve`, with interface:
 
  .. code-block:: python
 
@@ -47,9 +47,9 @@ The outputs are:
 
 Examples for the use of :code:`trustregion.solve` can be found in the `examples <https://github.com/lindonroberts/trust-region/tree/master/examples>`_ directory on Github.
 
-Algorithm
----------
-:code:`trustregion` implements three different methods for solving the subproblem, based on the problem class (in Fortran 90, wrapped to Python)
+**Algorithms**
+
+:code:`trustregion` implements three different methods for solving the subproblem, based on the problem class (in Fortran 90, wrapped to Python):
 
 * :code:`trslin.f90` solves the linear objective case (where :code:`H=None` or :code:`H=0`), using Algorithm B.1 from: L. Roberts (2019), `Derivative-Free Algorithms for Nonlinear Optimisation Problems <https://ora.ox.ac.uk/objects/uuid:ec76e895-6eee-491a-88ed-b4ed10fa6003>`_, PhD Thesis, University of Oxford.
 * :code:`trsapp.f90` solves the quadratic case without box constraints. It is a minor modification of the routine of the same name in :code:`NEWUOA` [M. J. D. Powell (2004), `The NEWUOA software for unconstrained optimization without derivatives <http://www.damtp.cam.ac.uk/user/na/NA_papers/NA2004_08.pdf>`_, technical report DAMTP 2004/NA05, University of Cambridge].
