@@ -21,7 +21,7 @@ Citation
 
 Requirements
 ------------
-trustregion requires the following software to be installed:
+:code:`trustregion` requires the following software to be installed:
 
 * Python 2.7 or Python 3 (http://www.python.org/)
 
@@ -38,35 +38,35 @@ For easy installation, use `pip <http://www.pip-installer.org/>`_ as root:
     $ [sudo] pip install numpy
     $ [sudo] pip install trustregion
 
-Note that NumPy should be installed before trustregion, as it is used to compile the Fortran modules.
+Note that NumPy should be installed before :code:`trustregion`, as it is used to compile the Fortran modules.
 
-If you do not have root privileges or you want to install trustregion for your private use, you can use:
+If you do not have root privileges or you want to install :code:`trustregion` for your private use, you can use:
 
  .. code-block:: bash
 
     $ pip install --user numpy
     $ pip install --user trustregion
 
-which will install trustregion in your home directory.
+which will install :code:`trustregion` in your home directory.
 
-Note that if an older install of trustregion is present on your system you can use:
+Note that if an older install of :code:`trustregion` is present on your system you can use:
 
  .. code-block:: bash
 
     $ [sudo] pip install --upgrade trustregion
 
-to upgrade trustregion to the latest version.
+to upgrade :code:`trustregion` to the latest version.
 
 Manual installation
 -------------------
-Alternatively, you can download the source code from `Github <https://github.com/numericalalgorithmsgroup/pybobyqa>`_ and unpack as follows:
+Alternatively, you can download the source code from `Github <https://github.com/lindonroberts/trust-region>`_ and unpack as follows:
 
  .. code-block:: bash
 
     $ git clone https://github.com/lindonroberts/trust-region
     $ cd trust-region
 
-To upgrade trustregion to the latest version, navigate to the top-level directory (i.e. the one containing :code:`setup.py`) and rerun the installation using :code:`pip`, as above:
+To upgrade :code:`trustregion` to the latest version, navigate to the top-level directory (i.e. the one containing :code:`setup.py`) and rerun the installation using :code:`pip`, as above:
 
  .. code-block:: bash
 
@@ -75,27 +75,27 @@ To upgrade trustregion to the latest version, navigate to the top-level director
 
 Testing
 -------
-If you installed trustregion manually, you can test your installation by running:
+If you installed :code:`trustregion` manually, you can test your installation by running:
 
  .. code-block:: bash
 
     $ python setup.py test
 
-Alternatively, the documentation provides some simple examples of how to run trustregion.
+Alternatively, the documentation provides some simple examples of how to run :code:`trustregion`.
 
 Examples
 --------
-Examples of how to run Py-BOBYQA are given in the `documentation <https://numericalalgorithmsgroup.github.io/pybobyqa/>`_, and the `examples <https://github.com/lindonroberts/trust-region/tree/master/examples>`_ directory in Github.
+Examples of how to run :code:`trustregion` are given in the `documentation <https://lindonroberts.github.io/trust-region/>`_, and the `examples <https://github.com/lindonroberts/trust-region/tree/master/examples>`_ directory in Github.
 
 Uninstallation
 --------------
-If trustregion was installed using *pip* you can uninstall as follows:
+If :code:`trustregion` was installed using *pip* you can uninstall as follows:
 
  .. code-block:: bash
 
     $ [sudo] pip uninstall trustregion
 
-If trustregion was installed manually you have to remove the installed files by hand (located in your python site-packages directory).
+If :code:`trustregion` was installed manually you have to remove the installed files by hand (located in your python site-packages directory).
 
 Bugs
 ----
