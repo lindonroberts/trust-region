@@ -227,7 +227,9 @@ Subroutine trsbox(N,XOPT,GOPT,HQ,SL,SU,DELTA,D,GNEW,CRVMIN)
 !
       IF (STPLEN .LT. BLEN) THEN
           IF (ITERC .EQ. ITERMAX) GOTO 190
-          IF (SDEC .LE. 0.01D0*QRED) GOTO 190
+!     Replace termination condition with the one from DFBOLS [H. Zhang, 2010]
+!          IF (SDEC .LE. 0.01D0*QRED) GOTO 190
+          IF (SDEC .LE. 1.0D-6*QRED) GOTO 190
           BETA=GREDSQ/GGSAV
           GOTO 30
       END IF

@@ -116,7 +116,7 @@ Subroutine trsapp(N,XOPT,GQ,HQ,DELTA,STEP,CRVMIN)
 !     Begin another conjugate direction iteration if required.
 !
       IF (ALPHA .LT. BSTEP) THEN
-          IF (QADD .LE. 0.01D0*QRED) GOTO 160
+          IF (QADD .LE. 1.0D-6*QRED) GOTO 160
 !     Note: replacing test with one from TRSBOX, as modified in DFBOLS [H. Zhang, 2010]
           IF (GG .LE. MIN(1.0D-6*GGBEG,1.0D-18)) GOTO 160
 !          IF (GG .LE. 1.0D-4*GGBEG) GOTO 160
@@ -212,7 +212,9 @@ Subroutine trsapp(N,XOPT,GQ,HQ,DELTA,STEP,CRVMIN)
   150 GG=GG+(G(I)+HS(I))**2
       QRED=QRED+REDUC
       RATIO=REDUC/QRED
-      IF (ITERC .LT. ITERMAX .AND. RATIO .GT. 0.01D0) GOTO 90
+!     Note: replacing test with one from TRSBOX, as modified in DFBOLS [H. Zhang, 2010]
+!      IF (ITERC .LT. ITERMAX .AND. RATIO .GT. 0.01D0) GOTO 90
+      IF (ITERC .LT. ITERMAX .AND. RATIO .GT. 1.0D-6) GOTO 90
   160 RETURN
 !
 !     The following instructions act as a subroutine for setting the vector
