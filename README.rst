@@ -10,14 +10,49 @@ trustregion: Trust-region subproblem solver for nonconvex optimization
    :target: https://www.gnu.org/licenses/gpl-3.0
    :alt: GNU GPL v3 License
 
-General information here
+This package provides methods for solving the trust-region subproblem from nonlinear, nonconvex optimization. For more details on trust-region methods, see the book: A. R. Conn, N. I. M. Gould and Ph. L. Toint (2000), Trust-Region Methods, MPS-SIAM Series on Optimization.
 
-Documentation
--------------
+The trust-region subproblem we solve is
 
+.. code-block::
 
-Citation
---------
+   min_{s in R^n}  g^T s + 0.5 s^T H s, subject to ||s||_2 <= delta (and optionally sl <= s <= su)
+
+The package :code:`trustregion` provides one routine, :code:`solve`, which is:
+
+ .. code-block:: python
+
+    import trustregion
+    s               = trustregion.solve(g, H, delta, sl=None, su=None, verbose_output=False)
+    s, gnew, crvmin = trustregion.solve(g, H, delta, sl=None, su=None, verbose_output=True)
+
+where the inputs are
+
+* :code:`g`, the gradient of the objective (as a 1D NumPy array)
+* :code:`H`, the symmetric Hessian matrix of the objective (as a 2D square NumPy array) - this can be :code:`None` if the model is linear
+* :code:`delta`, the trust-region radius (non-negative float)
+* :code:`sl`, the lower bounds on the step (as a 1D NumPy array) - this can be :code:`None` if not present, but :code:`sl` and :code:`su` must either be both :code:`None` or both set
+* :code:`su`, the upper bounds on the step (as a 1D NumPy array) - this can be :code:`None` if not present, but :code:`sl` and :code:`su` must either be both :code:`None` or both set
+* :code:`verbose_output`, a flag indicating which outputs to return.
+
+The outputs are:
+
+* :code:`s`, an approximate minimizer of the subproblem (as a 1D NumPy array)
+* :code:`gnew`, the gradient of the objective at the solution :code:`s` (i.e. :code:`gnew = g + H.dot(s)`)
+* :code:`crvmin`, a float giving information about the curvature of the problem. If :code:`s` is on the trust-region boundary (given by :code:`delta`), then :code:`crvmin=0`. If :code:`s` is constrained in all directions by the box constraints, then :code:`crvmin=-1`. Otherwise, :code:`crvmin>0` is the smallest curvature seen in the Hessian.
+
+Examples for the use of :code:`trustregion.solve` can be found in the examples directory.
+
+Algorithm
+---------
+:code:`trustregion` implements three different methods for solving the subproblem, based on the problem class (in Fortran 90, wrapped to Python)
+
+* :code:`trslin.f90` solves the linear objective case (where :code:`H=None` or :code:`H=0`), using Algorithm B.1 from: L. Roberts (2019), `Derivative-Free Algorithms for Nonlinear Optimisation Problems <https://ora.ox.ac.uk/objects/uuid:ec76e895-6eee-491a-88ed-b4ed10fa6003>`_, PhD Thesis, University of Oxford.
+* :code:`trsapp.f90` solves the quadratic case without box constraints. It is a minor modification of the routine from :code:`NEWUOA` [M. J. D. Powell (2004), `The NEWUOA software for unconstrained optimization without derivatives <http://www.damtp.cam.ac.uk/user/na/NA_papers/NA2004_08.pdf>`_, technical report DAMTP 2004/NA05, University of Cambridge].
+* :code:`trsbox.f90` solves the quadratic case with box constraints. It is a minor modification of the routine from :code:`BOBYQA` [M. J. D. Powell (2009), `The BOBYQA algorithm for bound constrained
+optimization without derivatives <http://www.damtp.cam.ac.uk/user/na/NA_papers/NA2009_06.pdf>`_, technical report DAMTP 2009/NA06, University of Cambridge].
+
+In the linear case, an active-set method is used to solve the resulting convex problem. In the quadratic cases, a modification of the Steihaug-Toint/conjugate gradient method is used. For more details, see the relevant references above.
 
 Requirements
 ------------

@@ -49,7 +49,7 @@ def solve(g, H, delta, sl=None, su=None, verbose_output=False):
     :param sl: lower bounds on step (n-dimensional vector; as numpy.ndarray)
     :param su: upper bounds on step (n-dimensional vector; as numpy.ndarray)
     :param verbose_output: whether to return full output or just solution s (bool)
-    :return: s, [gnew, crvmin]
+    :return: s[, gnew, crvmin]
     """
     # Convert to desired types
     g = _to_array(g, 'g')
