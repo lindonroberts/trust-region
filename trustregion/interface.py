@@ -9,6 +9,21 @@ __all__ = ['solve']
 ZERO_THRESH = 1e-14
 
 
+def _to_array(X, lbl):
+    try:
+        return np.asarray_chkfinite(X)
+    except ValueError:
+        raise ValueError('%s contains Nan/Inf values' % lbl)
+
+
+def check_dimension(x, dim, lbl, check_real=True):
+    if check_real and not np.all(np.isreal(x)):
+        raise ValueError('%s must be a real array' % (lbl))
+    if len(x.shape) != dim:
+        raise ValueError('%s must be %g-dimensional (%s.shape=%s)' % (lbl, dim, lbl, str(x.shape)))
+    return
+
+
 def solve(g, H, delta, sl=None, su=None, verbose_output=False):
     """
     Approximately solve the trust-region subproblem:
@@ -36,39 +51,49 @@ def solve(g, H, delta, sl=None, su=None, verbose_output=False):
     :param verbose_output: whether to return full output or just solution s (bool)
     :return: s, [gnew, crvmin]
     """
-    # Check inputs
-    assert type(g) == np.ndarray, "g must be a NumPy ndarray"
-    assert len(g.shape) == 1, "g must be a vector (got g.shape = %s)" % (str(g.shape))
+    # Convert to desired types
+    g = _to_array(g, 'g')
+    H = None if H is None else _to_array(H, 'H')
     try:
         delta = float(delta)
     except:
-        raise RuntimeError("delta must be a float")
+        raise ValueError('delta must be a float')
+    sl = None if sl is None else _to_array(sl, 'sl')
+    su = None if su is None else _to_array(su, 'su')
+    if verbose_output not in [True, False]:
+        raise ValueError('verbose_output must be a bool')
+    # Check inputs
+    check_dimension(g, 1, 'g')
     n = len(g)
     if H is not None:
-        assert type(H) == np.ndarray, "H must be a NumPy array"
-        assert len(H.shape) == 2, "H must be a matrix (got H.shape = %s)" % (str(H.shape))
-        assert H.shape == (n,n), "H must be square with same dimension as g (got H.shape = %g and len(g)=%g)" % (str(H.shape), n)
-    assert (sl is None and su is None) or (sl is not None and su is not None), "Must specify none or both of sl and su"
+        check_dimension(H, 2, 'H')
+        if H.shape != (n,n):
+            raise ValueError("H must be square with same dimension as g (got H.shape = %s and len(g)=%g)" % (str(H.shape), n))
+    if (sl is not None and su is None) or (sl is None and su is not None):
+        raise ValueError("Must specify none or both of sl and su")
     if sl is not None:
-        assert type(sl) == np.ndarray, "sl must be a NumPy ndarray"
-        assert len(sl.shape) == 1, "sl must be a vector (got sl.shape = %s)" % (str(sl.shape))
-        assert sl.shape == (n,), "sl must have same length as g (got len(sl) = %g and len(g) = %g)" % (len(sl), n)
+        check_dimension(sl, 1, 'sl')
+        if sl.shape != (n,):
+            raise ValueError("sl must have same length as g (got len(sl) = %g and len(g) = %g)" % (len(sl), n))
     if su is not None:
-        assert type(su) == np.ndarray, "su must be a NumPy ndarray"
-        assert len(su.shape) == 1, "su must be a vector (got su.shape = %s)" % (str(su.shape))
-        assert su.shape == (n,), "su must have same length as g (got len(su) = %g and len(g) = %g)" % (len(su), n)
-    assert type(verbose_output) == bool, "verbose_output must be a Boolean"
+        check_dimension(su, 1, 'su')
+        if su.shape != (n,):
+            raise ValueError("su must have same length as g (got len(su) = %g and len(g) = %g)" % (len(su), n))
     # Classify type of problem
     linear = (H is None) or (np.allclose(H, 0.0))
     box_constrained = (sl is not None)
     # Types checked, now validate values
-    assert delta >= 0.0, "delta must be non-negative (got delta = %g)" % delta
+    if delta < 0.0:
+        raise ValueError("delta must be non-negative (got delta = %g)" % delta)
     if not linear:
-        assert np.allclose(H, H.T), "H must be symmetric"
+        if not np.allclose(H, H.T):
+            raise ValueError("H must be symmetric")
     if box_constrained:
         # assert np.all(su >= sl), "Must have sl <= su (in all components)"
-        assert np.all(sl <= 0.0), "Must have sl <= 0 (in all components)"
-        assert np.all(su >= 0.0), "Must have su >= 0 (in all components)"
+        if np.any(sl > 0.0):
+            raise ValueError("Must have sl <= 0 (in all components)")
+        if np.any(su < 0.0):
+            raise ValueError("Must have su >= 0 (in all components)")
 
     # Solve (using different routines, depending
     if delta <= ZERO_THRESH or (box_constrained and np.min(su-sl) <= ZERO_THRESH):
