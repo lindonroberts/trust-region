@@ -18,6 +18,16 @@ The trust-region subproblem we solve is
 
    min_{s in R^n}  g^T s + 0.5 s^T H s, subject to ||s||_2 <= delta (and sl <= s <= su)
 
+**Quick install**
+
+ .. code-block:: bash
+
+    $ sudo apt-get install gfortran
+    $ pip install --user numpy
+    $ pip install --user trustregion
+
+For more details, see below. Note that NumPy must be installed first, as it is used to compile the Fortran-linked modules.
+
 **Interface** 
 
 The Python package :code:`trustregion` provides one routine, :code:`solve`, with interface:
@@ -61,6 +71,7 @@ Requirements
 ------------
 :code:`trustregion` requires the following software to be installed:
 
+* Fortran compiler (e.g. gfortran)
 * Python 2.7 or Python 3 (http://www.python.org/)
 
 Additionally, the following python packages should be installed (these will be installed automatically if using *pip*, see `Installation using pip`_):
