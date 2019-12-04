@@ -31,7 +31,7 @@ setup(
     author='Lindon Roberts',
     author_email='lindon.roberts@anu.edu.au',
     url="https://github.com/lindonroberts/trust-region",
-    download_url="https://github.com/lindonroberts/trust-region/v1.0.tar.gz",
+    download_url="https://github.com/lindonroberts/trust-region/archive/v1.0.tar.gz",
     packages=['trustregion'],
     ext_modules=[lib],
     license='GNU GPL',
