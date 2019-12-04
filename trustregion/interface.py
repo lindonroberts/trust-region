@@ -114,7 +114,12 @@ def solve(g, H, delta, sl=None, su=None, verbose_output=False):
         s, crvmin = trsapp_interface(g, H, delta)
     else:
         # Quadratic with box constraints - TRSBOX
-        s, _, crvmin = trsbox_interface(g, H, sl, su, delta)
+        trs_inside_box = np.max(sl) <= -delta and np.min(su) >= delta
+        if trs_inside_box:
+            # No way the box constraints can be active, so ignore
+            s, crvmin = trsapp_interface(g, H, delta)
+        else:
+            s, _, crvmin = trsbox_interface(g, H, sl, su, delta)
     # Ensure box constraints are exactly satisfied (in case of small rounding errors)
     if box_constrained:
         s = np.minimum(np.maximum(sl, s), su)
