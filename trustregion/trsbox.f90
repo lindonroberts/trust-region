@@ -39,6 +39,7 @@ Subroutine trsbox(N,XOPT,GOPT,HQ,SL,SU,DELTA,D,GNEW,CRVMIN)
       DREDSQ=0.0D0
       DREDG=0.0D0
       ANGBD=0.0D0
+      GREDSQ0=0.0D0
 !
 !     N is the dimension of the problem to solve
 !     XOPT is the base point for problem bounds
@@ -135,7 +136,12 @@ Subroutine trsbox(N,XOPT,GOPT,HQ,SL,SU,DELTA,D,GNEW,CRVMIN)
           GREDSQ=STEPSQ
           ITERMAX=ITERC+N-NACT
       END IF
-      IF (GREDSQ*DELSQ .LE. 1.0D-4*QRED*QRED) GO TO 190
+!     Replace termination condition with the one from DFBOLS [H. Zhang, 2010]
+!      IF (GREDSQ*DELSQ .LE. 1.0D-4*QRED*QRED) GO TO 190
+      IF (ITERC==0) THEN
+          GREDSQ0=GREDSQ
+      END IF
+      IF ((GREDSQ <= MIN(1.0D-6*GREDSQ0, 1.0D-18)) .OR. (GREDSQ*DELSQ .LE. MIN(1.0D-6*QRED*QRED,1.0D-18))) GO TO 190
 !
 !     Multiply the search direction by the second derivative matrix of Q and
 !     calculate some scalars for the choice of steplength. Then set BLEN to

@@ -117,7 +117,9 @@ Subroutine trsapp(N,XOPT,GQ,HQ,DELTA,STEP,CRVMIN)
 !
       IF (ALPHA .LT. BSTEP) THEN
           IF (QADD .LE. 0.01D0*QRED) GOTO 160
-          IF (GG .LE. 1.0D-4*GGBEG) GOTO 160
+!     Note: replacing test with one from TRSBOX, as modified in DFBOLS [H. Zhang, 2010]
+          IF (GG .LE. MIN(1.0D-6*GGBEG,1.0D-18)) GOTO 160
+!          IF (GG .LE. 1.0D-4*GGBEG) GOTO 160
           IF (ITERC .EQ. ITERMAX) GOTO 160
           TEMP=GG/GGSAV
           DD=ZERO
@@ -135,8 +137,10 @@ Subroutine trsapp(N,XOPT,GQ,HQ,DELTA,STEP,CRVMIN)
       ITERSW=ITERC
 !
 !     Test whether an alternative iteration is required.
+!     Note: replacing test with one from TRSBOX, as modified in DFBOLS [H. Zhang, 2010]
 !
-   90 IF (GG .LE. 1.0D-4*GGBEG) GOTO 160
+   90 IF (GG .LE. MIN(1.0D-6*GGBEG,1.0D-18)) GOTO 160
+!      IF (GG .LE. 1.0D-4*GGBEG) GOTO 160
       SG=ZERO
       SHS=ZERO
       DO 100 I=1,N
