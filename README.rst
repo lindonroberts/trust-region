@@ -1,6 +1,6 @@
-======================================================================
-trustregion: Trust-region subproblem solver for nonconvex optimization
-======================================================================
+===========================================
+trustregion: Trust-region subproblem solver
+===========================================
 
 .. image::  https://travis-ci.org/lindonroberts/trust-region.svg?branch=master
    :target: https://travis-ci.org/lindonroberts/trust-region
@@ -16,9 +16,11 @@ The trust-region subproblem we solve is
 
 .. code-block::
 
-   min_{s in R^n}  g^T s + 0.5 s^T H s, subject to ||s||_2 <= delta (and optionally sl <= s <= su)
+   min_{s in R^n}  g^T s + 0.5 s^T H s, subject to ||s||_2 <= delta (and sl <= s <= su)
 
-The package :code:`trustregion` provides one routine, :code:`solve`, which is:
+**Interface** 
+
+The package :code:`trustregion` provides one routine, :code:`solve`, with interface:
 
  .. code-block:: python
 
@@ -41,16 +43,17 @@ The outputs are:
 * :code:`gnew`, the gradient of the objective at the solution :code:`s` (i.e. :code:`gnew = g + H.dot(s)`)
 * :code:`crvmin`, a float giving information about the curvature of the problem. If :code:`s` is on the trust-region boundary (given by :code:`delta`), then :code:`crvmin=0`. If :code:`s` is constrained in all directions by the box constraints, then :code:`crvmin=-1`. Otherwise, :code:`crvmin>0` is the smallest curvature seen in the Hessian.
 
-Examples for the use of :code:`trustregion.solve` can be found in the examples directory.
+**Example Usage** 
+
+Examples for the use of :code:`trustregion.solve` can be found in the `examples <https://github.com/lindonroberts/trust-region/tree/master/examples>`_ directory on Github.
 
 Algorithm
 ---------
 :code:`trustregion` implements three different methods for solving the subproblem, based on the problem class (in Fortran 90, wrapped to Python)
 
 * :code:`trslin.f90` solves the linear objective case (where :code:`H=None` or :code:`H=0`), using Algorithm B.1 from: L. Roberts (2019), `Derivative-Free Algorithms for Nonlinear Optimisation Problems <https://ora.ox.ac.uk/objects/uuid:ec76e895-6eee-491a-88ed-b4ed10fa6003>`_, PhD Thesis, University of Oxford.
-* :code:`trsapp.f90` solves the quadratic case without box constraints. It is a minor modification of the routine from :code:`NEWUOA` [M. J. D. Powell (2004), `The NEWUOA software for unconstrained optimization without derivatives <http://www.damtp.cam.ac.uk/user/na/NA_papers/NA2004_08.pdf>`_, technical report DAMTP 2004/NA05, University of Cambridge].
-* :code:`trsbox.f90` solves the quadratic case with box constraints. It is a minor modification of the routine from :code:`BOBYQA` [M. J. D. Powell (2009), `The BOBYQA algorithm for bound constrained
-optimization without derivatives <http://www.damtp.cam.ac.uk/user/na/NA_papers/NA2009_06.pdf>`_, technical report DAMTP 2009/NA06, University of Cambridge].
+* :code:`trsapp.f90` solves the quadratic case without box constraints. It is a minor modification of the routine of the same name in :code:`NEWUOA` [M. J. D. Powell (2004), `The NEWUOA software for unconstrained optimization without derivatives <http://www.damtp.cam.ac.uk/user/na/NA_papers/NA2004_08.pdf>`_, technical report DAMTP 2004/NA05, University of Cambridge].
+* :code:`trsbox.f90` solves the quadratic case with box constraints. It is a minor modification of the routine of the same name in :code:`BOBYQA` [M. J. D. Powell (2009), `The BOBYQA algorithm for bound constrained optimization without derivatives <http://www.damtp.cam.ac.uk/user/na/NA_papers/NA2009_06.pdf>`_, technical report DAMTP 2009/NA06, University of Cambridge].
 
 In the linear case, an active-set method is used to solve the resulting convex problem. In the quadratic cases, a modification of the Steihaug-Toint/conjugate gradient method is used. For more details, see the relevant references above.
 
@@ -117,10 +120,6 @@ If you installed :code:`trustregion` manually, you can test your installation by
     $ python setup.py test
 
 Alternatively, the documentation provides some simple examples of how to run :code:`trustregion`.
-
-Examples
---------
-Examples of how to run :code:`trustregion` are given in the `documentation <https://lindonroberts.github.io/trust-region/>`_, and the `examples <https://github.com/lindonroberts/trust-region/tree/master/examples>`_ directory in Github.
 
 Uninstallation
 --------------
