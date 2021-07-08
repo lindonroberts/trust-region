@@ -102,7 +102,7 @@ def solve(g, H, delta, sl=None, su=None, verbose_output=False):
         crvmin = 0.0 if delta <= ZERO_THRESH else -1.0
     elif linear and not box_constrained:
         # Minimise linear function inside a ball - analytic solution
-        s = g * (delta / np.linalg.norm(g))
+        s = -g * (delta / np.linalg.norm(g))
         crvmin = 0.0
     elif linear:
         # Linear with box constraints - TRSLIN

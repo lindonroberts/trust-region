@@ -375,7 +375,7 @@ class TestAnalytic(unittest.TestCase):
         delta = 5.0
         for H in [None, np.zeros((len(g), len(g)))]:
             x = trustregion.solve(g, H, delta)
-            xtrue = delta * g / np.linalg.norm(g)
+            xtrue = -delta * g / np.linalg.norm(g)
             self.assertTrue(np.max(np.abs(x - xtrue)) < 1e-10, msg='Wrong step')
             self.assertTrue(np.linalg.norm(x) <= delta + BALL_EPS, msg='Ball constraint violated')
 
