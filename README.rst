@@ -10,6 +10,10 @@ trustregion: Trust-region subproblem solver
    :target: https://www.gnu.org/licenses/gpl-3.0
    :alt: GNU GPL v3 License
 
+.. image:: https://img.shields.io/pypi/v/trustregion.svg
+   :target: https://pypi.python.org/pypi/trustregion
+   :alt: Latest PyPI version
+
 This package provides Python routines for solving the trust-region subproblem from nonlinear, nonconvex optimization. For more details on trust-region methods, see the book: A. R. Conn, N. I. M. Gould and Ph. L. Toint (2000), Trust-Region Methods, MPS-SIAM Series on Optimization.
 
 The trust-region subproblem we solve is
