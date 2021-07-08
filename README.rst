@@ -3,7 +3,7 @@ trustregion: Trust-region subproblem solver
 ===========================================
 
 .. image::  https://travis-ci.org/lindonroberts/trust-region.svg?branch=master
-   :target: https://travis-ci.org/lindonroberts/trust-region
+   :target: https://travis-ci.com/lindonroberts/trust-region
    :alt: Build Status
 
 .. image::  https://img.shields.io/badge/License-GPL%20v3-blue.svg
