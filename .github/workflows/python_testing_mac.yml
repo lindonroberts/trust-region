@@ -20,7 +20,7 @@ jobs:
         python-version: ${{ matrix.python-version }}
     - name: Install dependencies
       run: |
-        brew install gcc
+        sudo ln -s /usr/local/bin/gfortran-11 /usr/local/bin/gfortran
         python -m pip install .
         pip install pytest
     - name: Run unit tests
