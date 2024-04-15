@@ -4,7 +4,7 @@ name: Package and upload to PyPI
 on:
   release:
     types:
-      - published
+      - published, workflow_dispatch
 
 jobs:
   build:
