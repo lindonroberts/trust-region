@@ -1,0 +1,51 @@
+[build-system]
+requires = ["meson-python", "wheel", "numpy"]
+build-backend = "mesonpy"
+
+[project]
+name = "trustregion"
+dynamic = ["version"]
+dependencies = [
+    "numpy"
+]
+requires-python = ">=3.8"
+authors = [
+    {name = "Lindon Roberts", email = "lindon.roberts@sydney.edu.au"}
+]
+maintainers = [
+    {name = "Lindon Roberts", email = "lindon.roberts@sydney.edu.au"}
+]
+description = "Trust-region subproblem solvers for nonlinear/nonconvex optimization"
+readme = "README.rst"
+license = {text = "GPL-3.0-or-later"}
+keywords = ["mathematics", "optimization"]
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Environment :: Console",
+    "Framework :: IPython",
+    "Framework :: Jupyter",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: GNU General Public License v3 or later (GPLv3+)",
+    "Operating System :: MacOS",
+    "Operating System :: Microsoft :: Windows",
+    "Operating System :: Unix",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Scientific/Engineering",
+    "Topic :: Scientific/Engineering :: Mathematics"
+]
+
+[project.optional-dependencies]
+dev = ["pytest"]
+
+[project.urls]
+Homepage = "https://github.com/lindonroberts/trust-region"
+Download = "https://github.com/lindonroberts/trust-region/releases/"
+"Bug Tracker" = "https://github.com/lindonroberts/trust-region/issues/"
+Documentation = "https://github.com/lindonroberts/trust-region"
+"Source Code" = "https://github.com/lindonroberts/trust-region"
