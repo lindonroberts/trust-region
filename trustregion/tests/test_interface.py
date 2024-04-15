@@ -424,7 +424,7 @@ class TestNumberErrors(unittest.TestCase):
         g = np.array([1.0, 0.0])
         H1 = np.eye(2)
         H2 = np.eye(2); H2[1,0] = -1.0  # non-symmetric
-        H3 = np.eye(2, dtype=np.complex); H3[0,0] = 1.0+1j  # complex
+        H3 = np.eye(2, dtype=complex); H3[0,0] = 1.0+1j  # complex
         delta1 = -1.0
         delta2 = 1.0
         sl1 = np.array([-1.0, 0.01])

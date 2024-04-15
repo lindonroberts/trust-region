@@ -39,7 +39,7 @@ def trsbox(xopt, g, hess, sl, su, delta):
     iterc = 0
     nact = 0  # number of fixed variables
 
-    xbdi = np.zeros((n,), dtype=np.int)  # fix x_i at bounds? [values -1, 0, 1]
+    xbdi = np.zeros((n,), dtype=int)  # fix x_i at bounds? [values -1, 0, 1]
     xbdi[(xopt <= sl) & (g >= 0.0)] = -1
     xbdi[(xopt >= su) & (g <= 0.0)] = 1
 
