@@ -24,4 +24,5 @@ jobs:
         pip install pytest
     - name: Run unit tests
       run: |
-        python -m pytest --pyargs trustregion
+        cd trustregion/tests
+        python -m pytest
