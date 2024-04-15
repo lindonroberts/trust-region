@@ -76,11 +76,11 @@ Requirements
 :code:`trustregion` requires the following software to be installed:
 
 * Fortran compiler (e.g. gfortran)
-* Python 2.7 or Python 3 (http://www.python.org/)
+* Python 3.8 or higher (http://www.python.org/)
 
 Additionally, the following python packages should be installed (these will be installed automatically if using *pip*, see `Installation using pip`_):
 
-* NumPy 1.11 or higher (http://www.numpy.org/)
+* NumPy (http://www.numpy.org/)
 
 Installation using pip
 ----------------------
@@ -132,7 +132,9 @@ If you installed :code:`trustregion` manually, you can test your installation by
 
  .. code-block:: bash
 
-    $ python setup.py test
+    $ pip install pytest
+    $ cd trustregion/tests
+    $ python -m pytest
 
 Alternatively, the documentation provides some simple examples of how to run :code:`trustregion`.
 
