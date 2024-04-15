@@ -1,6 +1,6 @@
 name: Package and upload to PyPI
 
-# Publish when a (published) GitHub Release is created
+# Publish when a (published) GitHub Release is created, or manually
 on:
   workflow_dispatch:
   release:
@@ -9,44 +9,58 @@ on:
       
 
 jobs:
-  build:
-    name: Build
-    runs-on: ubuntu-latest
+  build_wheels:
+    name: Build wheels on ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+
     steps:
       - uses: actions/checkout@v4
-      
-      - name: Set up Python
-        uses: actions/setup-python@v5
+
+      # Used to host cibuildwheel
+      - uses: actions/setup-python@v3
+
+      - name: Install cibuildwheel
+        run: python -m pip install cibuildwheel==2.17.0
+
+      - name: Build wheels
+        run: python -m cibuildwheel --output-dir wheelhouse
+
+      - uses: actions/upload-artifact@v4
         with:
-          python-version: "3.x"
+          name: cibw-wheels-${{ matrix.os }}-${{ strategy.job-index }}
+          path: ./wheelhouse/*.whl
+   
+  make_sdist:
+    name: Make SDist
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - name: Build SDist
+      run: pipx run build --sdist
 
-      - name: Install dependencies
-        run: pip install build
-
-      - name: Build binary wheel and source tarball
-        run: python -m build
-
-      - name: Store the distribution packages
-        uses: actions/upload-artifact@v3
-        with:
-          name: python-package-distributions
-          path: dist/
+    - uses: actions/upload-artifact@v4
+      with:
+        name: cibw-sdist
+        path: dist/*.tar.gz
   
   publish-to-pypi:
     name: Publish to PyPI
-    needs:
-      - build
+    needs: [build_wheels, make_sdist]
     runs-on: ubuntu-latest
     environment:
       name: pypi
-      url: https://pypi.org/p/DFO-LS
+      url: https://pypi.org/p/trustregion
     permissions:
       id-token: write
     steps:
       - name: Download all the dists
         uses: actions/download-artifact@v3
         with:
-          name: python-package-distributions
-          path: dist/
+          pattern: cibw-*
+          path: dist
+          merge-multiple: true
       - name: Publish distribution to PyPI
         uses: pypa/gh-action-pypi-publish@release/v1
