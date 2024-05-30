@@ -21,6 +21,12 @@ jobs:
 
       # Used to host cibuildwheel
       - uses: actions/setup-python@v3
+      
+      - name: Update Fortran compiler information (MacOS only)
+        if: runner.os == 'macOS'
+        run: |
+          sudo ln -s /opt/homebrew/bin/gfortran-12 /opt/homebrew/bin/gfortran
+          export FC="/opt/homebrew/bin/gfortran"
 
       - name: Install cibuildwheel
         run: python -m pip install cibuildwheel==2.17.0
