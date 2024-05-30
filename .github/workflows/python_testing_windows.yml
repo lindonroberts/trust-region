@@ -1,4 +1,4 @@
-name: Python package unit testing (Linux)
+name: Python package unit testing (Windows)
 
 on: [push, pull_request]
 
