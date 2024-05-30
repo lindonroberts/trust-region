@@ -1,6 +1,11 @@
 cmake_minimum_required(VERSION 3.17.2)
 project(${SKBUILD_PROJECT_NAME} LANGUAGES C Fortran)
 
+if (APPLE)
+  # Location of Fortran compiler for MacOS using Github Actions
+  set(CMAKE_Fortran_COMPILER  "/usr/local/bin/gfortran-11")
+endif ()
+
 find_package(
   Python
   COMPONENTS Interpreter Development.Module NumPy
