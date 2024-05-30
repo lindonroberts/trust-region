@@ -1,4 +1,4 @@
-name: Python package unit testing for MacOS
+name: Python package unit testing
 
 on: [push, pull_request]
 
@@ -9,21 +9,28 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [macos-latest]
+        os: [ubuntu-latest, macos-latest]
         python-version: ["3.8", "3.9", "3.10", "3.11", "3.12"]
 
     steps:
     - uses: actions/checkout@v4
+    
     - name: Set up Python ${{ matrix.python-version }}
       uses: actions/setup-python@v5
       with:
         python-version: ${{ matrix.python-version }}
+    
+    - name: Update Fortran compiler information (MacOS only)
+        if: runner.os == 'macOS'
+        run: |
+          sudo ln -s /opt/homebrew/bin/gfortran-12 /opt/homebrew/bin/gfortran
+          export FC="/opt/homebrew/bin/gfortran"
+    
     - name: Install dependencies
       run: |
-        sudo ln -s /opt/homebrew/bin/gfortran-12 /opt/homebrew/bin/gfortran
-        export FC="/opt/homebrew/bin/gfortran"
         python -m pip install .
         pip install pytest
+    
     - name: Run unit tests
       run: |
         cd trustregion/tests
