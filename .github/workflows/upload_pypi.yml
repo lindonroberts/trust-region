@@ -28,11 +28,8 @@ jobs:
           sudo ln -s /opt/homebrew/bin/gfortran-12 /opt/homebrew/bin/gfortran
           export FC="/opt/homebrew/bin/gfortran"
 
-      - name: Install cibuildwheel
-        run: python -m pip install cibuildwheel==2.17.0
-
       - name: Build wheels
-        run: python -m cibuildwheel --output-dir wheelhouse
+        uses: pypa/cibuildwheel@v2.18.1
 
       - uses: actions/upload-artifact@v4
         with:
@@ -43,30 +40,28 @@ jobs:
     name: Make SDist
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v4
-    - name: Build SDist
-      run: pipx run build --sdist
+      - uses: actions/checkout@v4
 
-    - uses: actions/upload-artifact@v4
-      with:
-        name: cibw-sdist
-        path: dist/*.tar.gz
+      - name: Build sdist
+        run: pipx run build --sdist
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: cibw-sdist
+          path: dist/*.tar.gz
   
-  publish-to-pypi:
-    name: Publish to PyPI
+  upload_pypi:
     needs: [build_wheels, make_sdist]
     runs-on: ubuntu-latest
-    environment:
-      name: pypi
-      url: https://pypi.org/p/trustregion
+    environment: pypi
     permissions:
       id-token: write
     steps:
-      - name: Download all the dists
-        uses: actions/download-artifact@v3
+      - uses: actions/download-artifact@v4
         with:
+          # unpacks all CIBW artifacts into dist/
           pattern: cibw-*
           path: dist
           merge-multiple: true
-      - name: Publish distribution to PyPI
-        uses: pypa/gh-action-pypi-publish@release/v1
+
+      - uses: pypa/gh-action-pypi-publish@release/v1
