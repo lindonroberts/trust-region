@@ -84,12 +84,12 @@ Additionally, the following python packages should be installed (these will be i
 
 Installation using pip
 ----------------------
-For easy installation, use `pip <http://www.pip-installer.org/>`_ as root:
+For easy installation, use `pip <http://www.pip-installer.org/>`_:
 
  .. code-block:: bash
 
-    $ [sudo] pip install numpy
-    $ [sudo] pip install trustregion
+    $ pip install numpy
+    $ pip install trustregion
 
 Note that NumPy should be installed before :code:`trustregion`, as it is used to compile the Fortran modules.
 
@@ -100,13 +100,14 @@ If you do not have root privileges or you want to install :code:`trustregion` fo
     $ pip install --user numpy
     $ pip install --user trustregion
 
-which will install :code:`trustregion` in your home directory.
+which will install :code:`trustregion` in your home directory. 
+Alternatively, you can use pip inside a virtual environment using `Python's virtual environments <https://docs.python.org/3/tutorial/venv.html>`_ or the `conda <https://conda.io/projects/conda/en/latest/index.html>`_ environment manager.
 
 Note that if an older install of :code:`trustregion` is present on your system you can use:
 
  .. code-block:: bash
 
-    $ [sudo] pip install --upgrade trustregion
+    $ pip install --upgrade trustregion
 
 to upgrade :code:`trustregion` to the latest version.
 
@@ -124,7 +125,7 @@ To upgrade :code:`trustregion` to the latest version, navigate to the top-level 
  .. code-block:: bash
 
     $ git pull
-    $ [sudo] pip install .  # with admin privileges
+    $ pip install .
 
 Testing
 -------
@@ -144,7 +145,7 @@ If :code:`trustregion` was installed using *pip* you can uninstall as follows:
 
  .. code-block:: bash
 
-    $ [sudo] pip uninstall trustregion
+    $ pip uninstall trustregion
 
 If :code:`trustregion` was installed manually you have to remove the installed files by hand (located in your python site-packages directory).
 
