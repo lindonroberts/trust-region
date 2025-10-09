@@ -30,7 +30,7 @@ jobs:
         uses: pypa/cibuildwheel@v3.2.0
         env:
           CIBW_SKIP: pp* gp*  # build wheels for CPython only
-          MACOSX_DEPLOYMENT_TARGET: 14.0
+          MACOSX_DEPLOYMENT_TARGET: 15.0
 
       - uses: actions/upload-artifact@v4
         with:
