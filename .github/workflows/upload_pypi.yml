@@ -14,8 +14,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        # macos-13 is an intel runner, macos-14 is apple silicon
-        os: [ubuntu-latest]  # macos-latest, macos-13, macos-14]
+        os: [ubuntu-latest, macos-latest]
 
     steps:
       - uses: actions/checkout@v5
@@ -23,11 +22,9 @@ jobs:
       # Used to host cibuildwheel
       - uses: actions/setup-python@v6
       
-      - name: Update Fortran compiler information (MacOS only)
-        if: runner.os == 'macOS'
-        run: |
-          sudo ln -s /opt/homebrew/bin/gfortran-12 /opt/homebrew/bin/gfortran
-          export FC="/opt/homebrew/bin/gfortran"
+      - name: Load Fortran compiler
+        uses: fortran-lang/setup-fortran@v1
+        id: setup-fortran
 
       - name: Build wheels
         uses: pypa/cibuildwheel@v3.2.0
