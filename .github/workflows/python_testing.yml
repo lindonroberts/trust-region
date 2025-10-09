@@ -20,11 +20,9 @@ jobs:
       with:
         python-version: ${{ matrix.python-version }}
     
-    - name: Update Fortran compiler information (MacOS only)
-      if: runner.os == 'macOS'
-      run: |
-          sudo ln -s /opt/homebrew/bin/gfortran-12 /opt/homebrew/bin/gfortran
-          export FC="/opt/homebrew/bin/gfortran"
+    - name: Load Fortran compiler
+      uses: fortran-lang/setup-fortran@v1
+      id: setup-fortran
     
     - name: Install dependencies
       run: |
