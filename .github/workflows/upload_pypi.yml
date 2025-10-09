@@ -30,7 +30,7 @@ jobs:
           export FC="/opt/homebrew/bin/gfortran"
 
       - name: Build wheels
-        uses: pypa/cibuildwheel@v2.18.1
+        uses: pypa/cibuildwheel@v3.2.0
         env:
           CIBW_SKIP: pp* gp*  # build wheels for CPython only
 
