@@ -17,7 +17,7 @@ jobs:
         os: [ubuntu-latest, macos-latest]
 
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
 
       # Used to host cibuildwheel
       - uses: actions/setup-python@v6
@@ -41,7 +41,7 @@ jobs:
     name: Make SDist
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
 
       - name: Build sdist
         run: pipx run build --sdist
