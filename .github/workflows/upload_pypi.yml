@@ -27,7 +27,7 @@ jobs:
         id: setup-fortran
 
       - name: Build wheels
-        uses: pypa/cibuildwheel@v3.3.0
+        uses: pypa/cibuildwheel@v3.3.1
         env:
           CIBW_SKIP: pp* gp*  # build wheels for CPython only
           MACOSX_DEPLOYMENT_TARGET: 15.0
