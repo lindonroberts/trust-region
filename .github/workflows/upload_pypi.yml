@@ -20,7 +20,7 @@ jobs:
       - uses: actions/checkout@v6
 
       # Used to host cibuildwheel
-      - uses: actions/setup-python@v6
+      - uses: actions/setup-python@v7
       
       - name: Load Fortran compiler
         uses: fortran-lang/setup-fortran@v1
